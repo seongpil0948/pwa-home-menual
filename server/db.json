@@ -1,0 +1,52 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "content": "abcde",
+      "author": "typicode"
+    },
+    {
+      "id": 2,
+      "title": "seongpiul",
+      "content": "123143546457",
+      "author": "typicode"
+    },
+    {
+      "id": 3,
+      "title": "abc",
+      "content": "abcde12345",
+      "author": "typicode"
+    },
+    {
+      "id": "1623638967e+12",
+      "title": "가이드 1",
+      "content": "작성란 1"
+    },
+    {
+      "id": "1408380470e+12",
+      "title": "제목1 ",
+      "content": "작성란1223"
+    },
+    {
+      "id": "1499862594e+12",
+      "title": "ㅋㄷㅋㄷ",
+      "content": "ㅋㄷㅋㄷㄷㅋㄷㅋㄷㅋㄷ"
+    },
+    {
+      "id": "3947077577e+11",
+      "title": "와이파이를 설치 해봅시다.",
+      "content": "호호호"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
