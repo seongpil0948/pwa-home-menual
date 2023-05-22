@@ -1,63 +1,65 @@
 <script setup lang="ts">
-import axios from 'axios'
-import type { FormInstance } from 'element-plus'
-import type { IPost } from '~/types'
+import { useTimeAgo } from '@vueuse/core'
+import MyWorker from '~/my-worker?worker'
 
-const postModel = reactive<IPost>({
-  id: getUniqueId(10),
-  title: '',
-  content: '',
-})
-function resetPost() {
-  postModel.id = getUniqueId(10)
-  postModel.title = ''
-  postModel.content = ''
+const pong = ref<any>(null)
+const mode = ref<any>(null)
+const worker = new MyWorker()
+
+// replaced dyanmicaly
+const date = '__DATE__'
+const timeAgo = useTimeAgo(date)
+
+const runWorker = async () => {
+  worker.postMessage('ping')
 }
-const formRef = ref<FormInstance>()
-const submitForm = (formEl: FormInstance | undefined) => {
-  if (!formEl)
-    return
-  formEl.validate(async (valid) => {
-    if (valid) {
-      console.log('submit!', postModel)
-      const res = await axios.post('http://localhost:3000/posts', postModel)
-      console.info('done', res.data)
-      resetPost()
-    }
-    else {
-      console.log('error submit!')
-      return false
-    }
+const resetMessage = async () => {
+  worker.postMessage('clear')
+}
+
+const messageFromWorker = async (payload: any) => {
+  console.log('messageFromWorker: ', messageFromWorker)
+  pong.value = payload.data.msg
+  mode.value = payload.data.useMode
+}
+onBeforeMount(() => {
+  worker.addEventListener('message', messageFromWorker)
+  // 브라우저가 서버로 요청을 보내면 Service Worker 는 fetch 이벤트를 구독해서 요청에 접근할 수 있다.
+  self.addEventListener('fetch', (e) => {
+    console.log('===> in fetch event')
+    e.respondWith(
+    // Cache 된 응답이 있는지 확인하고 응답이 없으면 서버로 요청을 전달한다.
+      caches.match(e.request).then((response) => {
+        console.log('===> match event: ', response)
+        return response || fetch(e.request)
+      }),
+    )
   })
-}
+})
 </script>
 
 <template>
   <div>
-    <el-card class="box-card">
-      <template #header>
-        <div class="card-header">
-          <span>가이드 작성 양식</span>
-        </div>
-      </template>
-      <el-form ref="formRef" :model="postModel" label-width="120px">
-        <el-form-item label="제목 입력">
-          <el-input v-model="postModel.title" placeholder="Wifi 설치 방법" />
-        </el-form-item>
-        <el-form-item label="작성란">
-          <el-input
-            v-model="postModel.content"
-            :rows="4"
-            type="textarea"
-            placeholder="1번 LAN을 연결 합니다"
-          />
-        </el-form-item>
-        <el-form-item>
-          <el-button size="large" style="margin-left: auto;" @click="submitForm(formRef)">
-            제출
-          </el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+    <img src="/favicon.svg" alt="PWA Logo" width="60" height="60">
+    <br>
+    <div>Built at: {{ date }} ({{ timeAgo }})</div>
+    <br>
+    <router-view />
+    <br>
+    <br>
+    <button @click="runWorker">
+      Ping web worker
+    </button>
+  &#160;&#160;
+    <button @click="resetMessage">
+      Reset message
+    </button>
+    <br>
+    <br>
+    <template v-if="pong">
+      Response from web worker: <span> Message: {{ pong }} </span>&#160;&#160;<span> Using ENV mode: {{ mode }}</span>
+    </template>
+    <ReloadPrompt />
+    <post-form />
   </div>
 </template>

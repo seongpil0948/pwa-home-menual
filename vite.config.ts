@@ -120,6 +120,8 @@ export default defineConfig({
         enabled: true,
       },
       registerType: 'autoUpdate',
+      // how to register the service worker in your application
+      injectRegister: 'inline',
       includeAssets: ['favicon.svg', 'safari-pinned-tab.svg'],
       manifest: {
         name: 'Vitesse',
