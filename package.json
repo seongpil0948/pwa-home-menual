@@ -13,7 +13,7 @@
     "test:unit": "vitest",
     "typecheck": "vue-tsc --noEmit",
     "up": "taze major -I",
-    "json:watch": "json-server --watch server/db.json"
+    "json:watch": "node server/app.js --watch server/db.json --host 127.0.0.1 --port 443"
   },
   "dependencies": {
     "@unocss/reset": "^0.45.30",
@@ -40,6 +40,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.41.0",
     "https-localhost": "^4.7.1",
+    "json-server": "^0.17.3",
     "markdown-it-link-attributes": "^4.0.1",
     "markdown-it-shiki": "^0.5.1",
     "npm-run-all": "^4.1.5",
