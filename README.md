@@ -1,4 +1,13 @@
 # PWA prototype
+pwa 기능 테스트를 위한 임시 레포지터리
+# Test 내용
+- 온라인 상태
+  - 게시글 목록 받아오기
+  - "현장 방문시 절차 (1)" 페이지 방문하기
+- 오프라인 상태에서 목록을 받아 올 수 있는지
+- 오프라인 상태에서 상세 페이지를 접근 할 수 있는지
+  - "현장 방문시 절차 (1)" 접근가능
+  - "현장 방문시 절차 (2)" 접근불가
 
 # Issue, Discuss
 ## Search Engine 테스트
@@ -25,6 +34,10 @@ https://developer.chrome.com/docs/workbox/caching-strategies-overview/#caching-s
 - 설치 가능여부 테스트 필요.
 - https 환경 배포 필수.
 - https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable#required_manifest_members
+
+#### Scope Parameter Issue
+아래 링크에 대한 확인이 필요합니다.
+https://stackoverflow.com/questions/53173797/target-blank-link-opening-in-pwa-and-not-in-browser-in-android
 
 ----- 
 Just run and visit http://localhost:3333

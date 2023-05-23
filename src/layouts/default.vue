@@ -1,30 +1,32 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Search as SearchIcon } from '@element-plus/icons-vue'
-import type { IPost } from '~/types'
+import { usePostStore } from '~/store/post'
 
+const activeIndex = ref('1')
+const postStore = usePostStore()
 const drawer = ref(false)
 function cancelClick() {
   drawer.value = false
 }
-const activeIndex = ref('1')
 function openDrawer() {
   drawer.value = true
 }
-const postList = shallowRef<IPost[]>([])
-function onUpdatePostList(ps: IPost[]) {
-  postList.value = ps
-}
+const router = useRouter()
+router.afterEach(() => {
+  if (drawer.value)
+    drawer.value = false
+})
 </script>
 
 <template>
-  <el-drawer v-model="drawer" size="600" direction="ltr">
+  <el-drawer v-model="drawer" size="600" direction="ltr" :show-close="false">
     <template #header>
-      <post-search-selector @post-list="onUpdatePostList" />
+      <post-search-selector />
     </template>
     <template #default>
       <ul class="post-list pr-3" style="overflow: auto;">
-        <li v-for="p in postList" :key="p.id" class="post-list-item">
+        <li v-for="p in postStore.postList" :key="p.id" class="post-list-item">
           <RouterLink class="icon-btn mx-2" :to="`/post/${p.id}`">
             <div class="flex items-center mt-2">
               {{ p.title }}
@@ -48,8 +50,8 @@ function onUpdatePostList(ps: IPost[]) {
     mode="horizontal"
     :ellipsis="false"
   >
-    <el-menu-item style="margin: auto" index="0">
-      <el-icon @click="openDrawer">
+    <el-menu-item style="margin: auto" index="0" @click="openDrawer">
+      <el-icon>
         <SearchIcon style="width: 1rem;" />
       </el-icon>
     </el-menu-item>

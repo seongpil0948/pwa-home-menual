@@ -30,12 +30,9 @@ onBeforeMount(() => {
 
 <template>
   <div>
-    <img src="/favicon.svg" alt="PWA Logo" width="60" height="60">
+    <post-form />
     <br>
     <div>Built at: {{ date }} ({{ timeAgo }})</div>
-    <br>
-    <router-view />
-    <br>
     <br>
     <button @click="runWorker">
       Ping web worker
@@ -45,10 +42,8 @@ onBeforeMount(() => {
       Reset message
     </button>
     <br>
-    <br>
     <template v-if="pong">
       Response from web worker: <span> Message: {{ pong }} </span>&#160;&#160;<span> Using ENV mode: {{ mode }}</span>
     </template>
-    <post-form />
   </div>
 </template>

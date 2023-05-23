@@ -124,7 +124,7 @@ export default defineConfig({
         globPatterns: ['**/*'],
         runtimeCaching: [
           {
-            handler: 'CacheFirst',
+            handler: 'NetworkFirst',
             urlPattern: /\w*/,
             // method: 'POST',
             options: {

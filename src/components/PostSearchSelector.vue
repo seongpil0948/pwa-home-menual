@@ -1,26 +1,16 @@
 <script setup lang="ts">
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { pwaInfo } from 'virtual:pwa-info'
-import axios from 'axios'
-import type { IPost } from '~/types'
+import { usePostStore } from '~/store/post'
 
-const emit = defineEmits<{
-  (e: 'postList', todo: IPost[]): void
-}>()
+const postStore = usePostStore()
 console.info('pwaInfo in search', pwaInfo)
 const searchWord = ref('')
-const postList = ref<IPost[]>([])
 const router = useRouter()
-const BASE_URL = 'http://127.0.0.1:3000/posts'
 const handleSelect = (item: any) => {
   router.push(`/post/${encodeURIComponent(item.id)}`)
 }
-const searchPost = async (p?: { page?: number; size?: number }) => {
-  const url = `${BASE_URL}?_page=${p?.page ?? 1}&_limit=${p?.size ?? 10}`
-  const res = await axios.get(url)
-  postList.value = res.data
-  emit('postList', postList.value)
-}
+
 const reloadSW: any = '__RELOAD_SW__'
 
 const { updateServiceWorker } = useRegisterSW({
@@ -50,7 +40,7 @@ const { updateServiceWorker } = useRegisterSW({
     else {
       console.log(`SW Registered: ${JSON.parse(JSON.stringify(r))}`)
       // 브라우저가 서버로 요청을 보내면 Service Worker 는 fetch 이벤트를 구독해서 요청에 접근할 수 있다.
-      searchPost()
+      postStore.refreshPostList()
       // self.addEventListener('fetch', (e: Event) => {
       //   console.log('===> in fetch event')
       //   e.respondWith(
@@ -66,12 +56,7 @@ const { updateServiceWorker } = useRegisterSW({
 })
 
 const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
-  console.log('queryString: ', queryString)
-  if (!queryString)
-    return cb([])
-  axios.get(`${BASE_URL}/search/${queryString}`).then((res) => {
-    cb(res.data)
-  })
+  postStore.searchSuggest(queryString).then(cb)
 
   // Promise.all([
   //   axios.get(`http://localhost:3000/posts?title_like=${queryString}`),

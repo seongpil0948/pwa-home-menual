@@ -19,7 +19,7 @@ watchEffect(async () => {
       <p text-sm opacity-75>
         <em>{{ targetPost.title }}</em>
       </p>
-      <div> {{ targetPost.content }} </div>
+      <editor-view :content="targetPost.content" />
     </div>
   </div>
 </template>
