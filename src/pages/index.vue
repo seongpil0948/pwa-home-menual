@@ -25,16 +25,6 @@ const messageFromWorker = async (payload: any) => {
 onBeforeMount(() => {
   worker.addEventListener('message', messageFromWorker)
   // 브라우저가 서버로 요청을 보내면 Service Worker 는 fetch 이벤트를 구독해서 요청에 접근할 수 있다.
-  self.addEventListener('fetch', (e) => {
-    console.log('===> in fetch event')
-    e.respondWith(
-    // Cache 된 응답이 있는지 확인하고 응답이 없으면 서버로 요청을 전달한다.
-      caches.match(e.request).then((response) => {
-        console.log('===> match event: ', response)
-        return response || fetch(e.request)
-      }),
-    )
-  })
 })
 </script>
 
@@ -59,7 +49,6 @@ onBeforeMount(() => {
     <template v-if="pong">
       Response from web worker: <span> Message: {{ pong }} </span>&#160;&#160;<span> Using ENV mode: {{ mode }}</span>
     </template>
-    <ReloadPrompt />
     <post-form />
   </div>
 </template>

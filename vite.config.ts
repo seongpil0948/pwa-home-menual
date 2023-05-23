@@ -116,14 +116,47 @@ export default defineConfig({
 
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
+      workbox: {
+        clientsClaim: true,
+        skipWaiting: true,
+        cleanupOutdatedCaches: false,
+        // globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        globPatterns: ['**/*'],
+        runtimeCaching: [
+          {
+            handler: 'CacheFirst',
+            urlPattern: /\w*/,
+            // method: 'POST',
+            options: {
+              cacheName: 'network-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+              },
+              backgroundSync: {
+                name: 'myQueueName',
+                options: {
+                  maxRetentionTime: 24 * 60,
+                },
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
+      },
       devOptions: {
         enabled: true,
       },
       registerType: 'autoUpdate',
       // how to register the service worker in your application
-      injectRegister: 'inline',
-      includeAssets: ['favicon.svg', 'safari-pinned-tab.svg'],
+      injectRegister: 'auto',
+      includeAssets: [
+        '**/*',
+      ],
       manifest: {
+        id: 'abacusPwaId',
         name: 'Vitesse',
         short_name: 'Vitesse',
         theme_color: '#ffffff',
