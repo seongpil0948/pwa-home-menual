@@ -43,7 +43,6 @@
     "critters": "^0.0.16",
     "cross-env": "^7.0.3",
     "eslint": "^8.41.0",
-    "https-localhost": "^4.7.1",
     "json-server": "^0.17.3",
     "markdown-it-link-attributes": "^4.0.1",
     "markdown-it-shiki": "^0.5.1",
