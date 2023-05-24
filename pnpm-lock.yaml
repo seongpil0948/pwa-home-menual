@@ -51,6 +51,9 @@ devDependencies:
   '@antfu/eslint-config':
     specifier: ^0.25.2
     version: 0.25.2(eslint@8.41.0)(typescript@4.9.5)
+  '@iconify-json/carbon':
+    specifier: ^1.1.16
+    version: 1.1.16
   '@intlify/vite-plugin-vue-i18n':
     specifier: ^6.0.3
     version: 6.0.3(vite@3.2.6)(vue-i18n@9.2.2)
@@ -1537,6 +1540,12 @@ packages:
 
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+    dev: true
+
+  /@iconify-json/carbon@1.1.16:
+    resolution: {integrity: sha512-AD8bcnRSGA0WfcGEass2FbA0sagrUzrpFx5WchuDy3uf7yKBWumdypdQK121DH321fQDl5+zZQ26T6gC9knwUQ==}
+    dependencies:
+      '@iconify/types': 2.0.0
     dev: true
 
   /@iconify/types@2.0.0:
