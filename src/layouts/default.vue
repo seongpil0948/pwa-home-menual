@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Search as SearchIcon } from '@element-plus/icons-vue'
+import { storeToRefs } from 'pinia'
 import { usePostStore } from '~/store/post'
 
 const activeIndex = ref('1')
 const postStore = usePostStore()
+const { postList, postSearched } = storeToRefs(postStore)
 const drawer = ref(false)
 function cancelClick() {
   drawer.value = false
@@ -17,6 +19,7 @@ router.afterEach(() => {
   if (drawer.value)
     drawer.value = false
 })
+const targetPostList = computed(() => postSearched.value.length > 0 ? postSearched.value : postList.value)
 </script>
 
 <template>
@@ -26,7 +29,7 @@ router.afterEach(() => {
     </template>
     <template #default>
       <ul class="post-list pr-3" style="overflow: auto;">
-        <li v-for="p in postStore.postList" :key="p.id" class="post-list-item">
+        <li v-for="p in targetPostList" :key="p.id" class="post-list-item">
           <RouterLink class="icon-btn mx-2" :to="`/post/${p.id}`">
             <div class="flex items-center mt-2">
               {{ p.title }}

@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { pwaInfo } from 'virtual:pwa-info'
+import { Search } from '@element-plus/icons-vue'
 import { usePostStore } from '~/store/post'
 
 const postStore = usePostStore()
 console.info('pwaInfo in search', pwaInfo)
 const searchWord = ref('')
-const router = useRouter()
+const search = () => postStore.searchPostList(searchWord.value)
 const handleSelect = (item: any) => {
-  router.push(`/post/${encodeURIComponent(item.id)}`)
+  console.log('selected Item', item)
+  postStore.searchPostList(item.suggestion)
+  // const router = useRouter()
+  // router.push(`/post/${encodeURIComponent(item.id)}`)
 }
 
 const reloadSW: any = '__RELOAD_SW__'
-
 useRegisterSW({
   immediate: true,
 
@@ -27,7 +30,7 @@ useRegisterSW({
     else {
       console.log(`SW Registered: ${JSON.parse(JSON.stringify(r))}`)
       // 브라우저가 서버로 요청을 보내면 Service Worker 는 fetch 이벤트를 구독해서 요청에 접근할 수 있다.
-      postStore.refreshPostList()
+      postStore.getPostList()
       // self.addEventListener('fetch', (e: Event) => {
       //   console.log('===> in fetch event')
       //   e.respondWith(
@@ -43,7 +46,10 @@ useRegisterSW({
 })
 
 const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
-  postStore.searchSuggest(queryString).then(cb)
+  cb(postStore.searchSuggest(queryString))
+  // postStore.searchSuggest(queryString).then((result) => {
+  //   cb(result)
+  // })
 
   // Promise.all([
   //   axios.get(`http://localhost:3000/posts?title_like=${queryString}`),
@@ -61,12 +67,20 @@ const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
 </script>
 
 <template>
-  <el-autocomplete
-    v-model="searchWord"
-    :fetch-suggestions="querySearchAsync"
-    placeholder="메뉴얼 가이드 검색"
-    value-key="title"
-    @select="handleSelect"
-  />
+  <el-row justify="space-between">
+    <el-col :span="18">
+      <el-autocomplete
+        v-model="searchWord"
+        style="width: 100%"
+        :fetch-suggestions="querySearchAsync"
+        placeholder="메뉴얼 가이드 검색"
+        value-key="suggestion"
+        @select="handleSelect"
+      />
+    </el-col>
+    <el-col :span="4">
+      <el-button style="margin-left: auto;" :icon="Search" @click="search" />
+    </el-col>
+  </el-row>
 </template>
 
