@@ -10,6 +10,7 @@ const postModel = reactive<IPost>({
   title: '',
   content: '',
   order: 1,
+  isCategory: false,
 })
 const contentRef = ref<InstanceType<typeof AppEditor> | undefined>()
 function resetPost() {

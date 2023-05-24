@@ -4,6 +4,7 @@ export interface IPost {
   content: string
   order: number
   parentId?: string
+  isCategory: boolean
   // createDate: string
   // updateDate: string
 }

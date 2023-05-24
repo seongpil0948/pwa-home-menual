@@ -2,10 +2,11 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import MiniSearch from 'minisearch'
 import type { IPost } from '~/types'
+import { MOCK_POST } from '~/temp'
 
 // const BASE_URL = 'http://127.0.0.1:3000/posts'
 const ID_FIELD = 'id'
-const FIELD_LIST: (keyof IPost)[] = [ID_FIELD, 'title', 'content']
+const FIELD_LIST: (keyof IPost)[] = [ID_FIELD, 'title', 'content', 'parentId']
 
 export const usePostStore = defineStore('post', () => {
   const postList = shallowRef<IPost[]>([])
@@ -14,7 +15,12 @@ export const usePostStore = defineStore('post', () => {
     fields: FIELD_LIST,
     storeFields: FIELD_LIST,
     idField: ID_FIELD,
+    tokenize: (string) => {
+      const s = string.trim()
+      return [s]
+    },
   })
+  // const leafIds = computed(() => new Set(...postList.value.filter(x => !x.isCategory).map(y => y.id)))
 
   function addPost(post: IPost) {
     postList.value = [...postList.value, post]
@@ -30,9 +36,7 @@ export const usePostStore = defineStore('post', () => {
     // const url = `${BASE_URL}?_page=${p?.page ?? 1}&_limit=${p?.size ?? 10}`
 
     // for mock
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     postList.value = MOCK_POST
-
     // const res = await axios.get(BASE_URL)
     // postList.value = res.data
     refreshPostList()
@@ -47,12 +51,19 @@ export const usePostStore = defineStore('post', () => {
       acc.push(serialized as IPost)
       return acc
     }, [] as IPost[])
+    console.log('postSearched: ', postSearched.value)
   }
 
   function searchSuggest(word?: string) {
     if (!word || word.trim().length < 1)
       return []
-    const result = postSearch.autoSuggest(word, { fields: ['title'], fuzzy: 12 }).slice(0, 5)
+    const result = postSearch.autoSuggest(word, {
+      fields: ['title'],
+      fuzzy: 12,
+      // filter(result) {
+      //   return leafIds.value.has(result.id)
+      // },
+    }).slice(0, 5)
     console.info('suggested list: ', result)
     return result
     // const res = await axios.get(`${BASE_URL}/search/${queryString}`)
@@ -77,85 +88,6 @@ export const usePostStore = defineStore('post', () => {
 if (import.meta.hot)
   import.meta.hot.accept(acceptHMRUpdate(usePostStore, import.meta.hot))
 
-const MOCK_POST: IPost[] = [
-  {
-    id: '1',
-    title: 'WIFI',
-    content: '',
-    order: 1,
-  },
-  {
-    parentId: '1',
-    id: '1-1',
-    title: '와이파이를 설치 해봅시다.',
-    content: 'LAN을 연결 합니다.',
-    order: 1,
-  },
-  {
-    parentId: '1',
-    id: '1-2',
-    title: '와이파이를 설치 해봅시다.',
-    content: 'WAN을 연결 합니다.',
-    order: 2,
-  },
-
-  {
-    parentId: '1',
-    id: '1-3',
-    title: 'WIFI 제거',
-    content: '',
-    order: 2,
-  },
-  {
-    parentId: '1-3',
-    id: '1-3-1',
-    title: '제거 절차',
-    content: '제거를 하십시오.',
-    order: 2,
-  },
-
-  {
-    id: '2',
-    title: '현장방문',
-    content: '',
-    order: 1,
-  },
-  {
-    parentId: '2',
-    id: '2-1',
-    title: '현장 방문시 절차 (1)',
-    content: '**반갑습니다**\n여러분의 교육을 맡게된 최성필입니다.',
-    order: 1,
-  },
-  {
-    parentId: '2',
-    id: '2-2',
-    title: '현장 방문시 절차 (2)',
-    content: '고객님께 안부 인사를 전하도록 합니다.\npart 3',
-    order: 2,
-  },
-  {
-    parentId: '2',
-    id: '2-3',
-    title: '현장 방문시 절차(3)',
-    content: '가격을 말씀드립니다 e.g  15,000원 선불입니다.',
-    order: 12,
-  },
-  {
-    parentId: '2',
-    id: '2-4',
-    title: '현장 방문시 절차(4)',
-    content: '배가 고픈데 혹시 남는 밥이 있을까 여쭙습니다.',
-    order: 4,
-  },
-  {
-    parentId: '2',
-    id: '2-5',
-    title: '현장 방문시 절차(5)',
-    content: '맛있게 밥을 먹으며, 김치는 없냐고 묻습니다.',
-    order: 3,
-  },
-]
 interface TreePost extends IPost {
   parent?: TreePost
   label: string
@@ -167,6 +99,18 @@ function isParentNode(parent: TreePost, child: TreePost): boolean {
 function insertChild(parent: TreePost, child: TreePost) {
   parent.children.push(child)
   parent.children.sort((a, b) => a.order - b.order)
+}
+function isNotEmptyTree(t: TreePost): TreePost | null {
+  if (!t.isCategory)
+    return t
+  for (let i = 0; i < t.children.length; i++) {
+    const c = t.children[i]
+    const exist = isNotEmptyTree(c)
+    if (exist)
+      return exist
+  }
+
+  return null
 }
 
 function addTreeToParent(parent: TreePost, target: TreePost) {
@@ -206,6 +150,14 @@ function postsToTree(posts: IPost[]) {
     }
     if (!added)
       console.log('not added any nodes', currNode.id)
+  }
+  // 빈트리 삭제
+  for (let z = 0; z < result.length; z++) {
+    const root = result[z]
+    if (!isNotEmptyTree(root)) {
+      console.log('empty tree delete: ', JSON.parse(JSON.stringify(result[z])))
+      result.splice(z, 1)
+    }
   }
 
   console.info('result of Treeeee: ', result)

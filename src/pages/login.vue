@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { set } from 'nprogress'
 import { storeToRefs } from 'pinia'
+import { USERS } from '~/temp'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -51,7 +52,16 @@ const submitForm = async () => {
   // }
 
   // authStore.setUser(res.data.userid, res.data.username)
-  authStore.setUser(loginUser.id, 'sp')
+
+  const user = USERS.find(u => u.name === loginUser.id && u.pw === loginUser.pwd)
+  if (!user) {
+    messageBox('아이디 또는 비밀번호가 일치하지 않습니다.')
+    validationId.value = false
+    validationPassword.value = false
+    userInputIdRef.value.focus()
+    return
+  }
+  authStore.setUser(user.id, user.name)
   router.push('/')
 }
 onMounted(() => {

@@ -3,9 +3,10 @@
 
 
 # Issue, Discuss
-- [ ] SearchEngine
-  - [ ] auto suggestion 과정에서 이상발견: 현장 방문시 절차(1) -> 1 현장 방문시 절차  
-  역 인덱싱이 원인?, 필터링이나 다른방법 모색필요.
+- SearchEngine
+  - auto suggestion 과정에서 이상발견: 현장 방문시 절차(1) -> 1 현장 방문시 절차  
+    - 역 인덱싱이 원인?, 필터링이나 다른방법 모색필요.
+    - 기존 MiniSearch 사용 어떻게 했는지? git lab 검색 결과 없음
 - PWA
   - PWA가 설치되어 있다면 PWA 앱이 자동으로 열리게?
     - 알아본 바로는 manifest 설정을 통해 기기에 앱이 설치된경우 브라우저가 아닌 앱으로 오픈된다고 하는데 http, desktop 환경에선 작동하지 않는 것으로 확인됌

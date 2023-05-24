@@ -1,10 +1,21 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { usePostStore } from '~/store/post'
+import { PERMISSIONS } from '~/temp'
 
 const postStore = usePostStore()
 const { postList, postSearched } = storeToRefs(postStore)
-const targetPostList = computed(() => postSearched.value.length > 0 ? postSearched.value : postList.value)
+const authStore = useAuthStore()
+const userPostIds = PERMISSIONS.filter(p => p.postId && p.userId === authStore.auth.userId).map(x => x.postId!)
+
+const targetPostList = computed(() => {
+  if (postSearched.value.length > 0) {
+    const targetIds = postSearched.value.map(x => x.id).filter(y => userPostIds.includes(y))
+    console.log('targetIds: ', targetIds)
+    return postList.value.filter(y => y.isCategory || targetIds.includes(y.id))
+  }
+  return postList.value.filter(y => y.isCategory || userPostIds.includes(y.id))
+})
 const treeData = computed(() => postStore.postsToTree(targetPostList.value))
 </script>
 
