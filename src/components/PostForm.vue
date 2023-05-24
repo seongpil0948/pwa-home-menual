@@ -9,10 +9,11 @@ const postModel = reactive<IPost>({
   id: getUniqueId(10),
   title: '',
   content: '',
+  order: 1,
 })
 const contentRef = ref<InstanceType<typeof AppEditor> | undefined>()
 function resetPost() {
-  postModel.id = getUniqueId(10)
+  postModel.id = getUniqueId(7)
   postModel.title = ''
   postModel.content = ''
   contentRef.value?.clear()
