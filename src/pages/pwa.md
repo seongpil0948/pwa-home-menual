@@ -106,7 +106,8 @@ __generateSW__ method 는 기본설정으로 대부분의 작업을 자동으로
 - https://stackoverflow.com/questions/51677716/pwa-deployed-in-node-js-running-in-standalone-mode-on-android-and-ios/51706405#51706405
 - https://developer.mozilla.org/en-US/docs/Web/Manifest/prefer_related_applications
 
-`display: 'standalone'`, related_apllications 설정이 된경우 앱으로 오픈되어야 하는데, 되지 않는 이슈가 있음,
+PENDING
+`display: 'standalone'`, related_applications 설정이 된경우 앱으로 오픈되어야 하는데, 되지 않는 이슈가 있음,
 데스크 톱 환경에서는 수동으로 오픈 해야하고, 모바일기기에서는 지원 한다는데
 문서를 더 찾고, https 환경으로 배포후 테스트를 더 해봐야 할 것 같음
 #### get installed apps

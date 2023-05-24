@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios'
+import { BIconChevronDoubleLeft, BIconChevronDoubleRight, BIconChevronLeft, BIconChevronRight } from 'bootstrap-icons-vue'
 import type { IPost } from '~/types'
 
 const props = defineProps<{ id: string }>()
@@ -11,15 +12,33 @@ watchEffect(async () => {
 </script>
 
 <template>
-  <div>
-    <div text-4xl>
-      <div i-carbon-pedestrian inline-block />
+  <el-container style="height: 100vh;">
+    <div style="height: 90vh; overflow-y: auto;">
+      <div text-4xl>
+        <div i-carbon-pedestrian inline-block />
+      </div>
+      <div v-if="targetPost">
+        <p text-sm opacity-75>
+          <em>{{ targetPost.title }}</em>
+        </p>
+        <editor-view :content="targetPost.content" />
+      </div>
     </div>
-    <div v-if="targetPost">
-      <p text-sm opacity-75>
-        <em>{{ targetPost.title }}</em>
-      </p>
-      <editor-view :content="targetPost.content" />
-    </div>
-  </div>
+    <el-footer style="height: 10vh;">
+      <el-row justify="space-around">
+        <el-col>
+          <el-button type="info" :icon="BIconChevronDoubleLeft" />
+        </el-col>
+        <el-col>
+          <el-button type="info" :icon="BIconChevronLeft" />
+        </el-col>
+        <el-col>
+          <el-button type="info" :icon="BIconChevronRight" />
+        </el-col>
+        <el-col>
+          <el-button type="info" :icon="BIconChevronDoubleRight" />
+        </el-col>
+      </el-row>
+    </el-footer>
+  </el-container>
 </template>
