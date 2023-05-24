@@ -20,6 +20,13 @@ useHead({
     },
   ],
 })
+const auth = useAuthStore()
+const router = useRouter()
+watch(() => auth.isAuthenticated, (val) => {
+  console.log('routes: ', router.getRoutes())
+  if (!val)
+    router.push('/login')
+}, { immediate: true })
 </script>
 
 <template>

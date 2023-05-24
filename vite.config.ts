@@ -156,9 +156,9 @@ export default defineConfig({
         '**/*',
       ],
       manifest: {
-        id: 'abacusPwaId',
-        name: 'Vitesse',
-        short_name: 'Vitesse',
+        id: 'home-manual',
+        name: 'HomeManual',
+        short_name: 'hm',
         theme_color: '#ffffff',
         icons: [
           {

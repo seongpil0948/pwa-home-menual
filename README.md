@@ -6,6 +6,7 @@
 - 게시글 작성 및 상세 페이지 라우팅
 ### Server
 - json-server with mini-search
+  - search, autoSuggestion
 ### PWA
 - 온라인 상태
   - 게시글 목록 받아오기
