@@ -1,27 +1,12 @@
 # PWA prototype
 
-# Test 내용
-### Front
-- tui 에디터 설치
-- 게시글 작성 및 상세 페이지 라우팅
-### Server
-- json-server with mini-search
-  - search, autoSuggestion
-### PWA
-- 온라인 상태
-  - 게시글 목록 받아오기
-  - "현장 방문시 절차 (1)" 페이지 방문하기
-- 오프라인 상태에서 목록을 받아 올 수 있는지
-- 오프라인 상태에서 상세 페이지를 접근 할 수 있는지
-  - "현장 방문시 절차 (1)" 접근가능
-  - "현장 방문시 절차 (2)" 접근불가
-
 # Issue, Discuss
-### Search Engine 테스트
-fuzzy, accuracy 등 실제 검색 테스트 이후 옵션들을 수정해야합니다.
+- [ ] SearchEngine
+  - [ ] auto suggestion 과정에서 이상발견: 현장 방문시 절차(1) -> 1 현장 방문시 절차  
+  역 인덱싱이 원인?, 필터링이나 다른방법 모색필요.
+- [ ] PWA
+  - [x] 캐시 스토리지 전략 선정: __Network first__
 
-### 캐시 스토리지 전략 선정
-__Network first, falling back to cache__ 로 임시 채택한 상태
 
 
 ### 빌드 전략 선정

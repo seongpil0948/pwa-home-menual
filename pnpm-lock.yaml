@@ -2,7 +2,6 @@ lockfileVersion: 5.4
 
 specifiers:
   '@antfu/eslint-config': ^0.25.2
-  '@iconify-json/carbon': ^1.1.16
   '@intlify/vite-plugin-vue-i18n': ^6.0.3
   '@toast-ui/editor': ^3.2.2
   '@toast-ui/editor-plugin-color-syntax': ^3.1.0
@@ -15,6 +14,7 @@ specifiers:
   '@vueuse/core': ^9.13.0
   '@vueuse/head': ^0.7.13
   axios: ^1.4.0
+  bootstrap-icons-vue: ^1.10.3
   critters: ^0.0.16
   cross-env: ^7.0.3
   element-plus: ^2.3.5
@@ -69,12 +69,12 @@ dependencies:
 
 devDependencies:
   '@antfu/eslint-config': 0.25.2_5ujgynla27k2qkzlnkldjwsutm
-  '@iconify-json/carbon': 1.1.16
   '@intlify/vite-plugin-vue-i18n': 6.0.3_vite@3.2.6+vue-i18n@9.2.2
   '@types/markdown-it-link-attributes': 3.0.1
   '@types/nprogress': 0.2.0
   '@vitejs/plugin-vue': 3.2.0_vite@3.2.6+vue@3.3.4
   '@vue/test-utils': 2.3.2_vue@3.3.4
+  bootstrap-icons-vue: 1.10.3
   critters: 0.0.16
   cross-env: 7.0.3
   eslint: 8.41.0
@@ -1493,12 +1493,6 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@iconify-json/carbon/1.1.16:
-    resolution: {integrity: sha512-AD8bcnRSGA0WfcGEass2FbA0sagrUzrpFx5WchuDy3uf7yKBWumdypdQK121DH321fQDl5+zZQ26T6gC9knwUQ==}
-    dependencies:
-      '@iconify/types': 2.0.0
-    dev: true
-
   /@iconify/types/2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
     dev: true
@@ -2817,6 +2811,10 @@ packages:
 
   /boolbase/1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
+    dev: true
+
+  /bootstrap-icons-vue/1.10.3:
+    resolution: {integrity: sha512-BzqmLufgHjFvSReJ1GQqNkl780UFK0rWT4Y1IQC7lZClXyOSsM5Ipw04BnuVmmrqgtSxzak83jcBwLJgCK3scg==}
     dev: true
 
   /bplist-parser/0.2.0:

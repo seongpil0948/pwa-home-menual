@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Search as SearchIcon } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
+import { BIconList } from 'bootstrap-icons-vue'
 import { usePostStore } from '~/store/post'
-
 const activeIndex = ref('1')
 const postStore = usePostStore()
 const { postList, postSearched } = storeToRefs(postStore)
@@ -54,9 +53,7 @@ const targetPostList = computed(() => postSearched.value.length > 0 ? postSearch
     :ellipsis="false"
   >
     <el-menu-item style="margin: auto" index="0" @click="openDrawer">
-      <el-icon>
-        <SearchIcon style="width: 1rem;" />
-      </el-icon>
+      <BIconList style="font-size: 1.2rem;" />
     </el-menu-item>
     <div class="flex-grow" />
   </el-menu>
