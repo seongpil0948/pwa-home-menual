@@ -21,6 +21,9 @@ useHead({
   ],
 })
 useAuthStore()
+const postStore = usePostStore()
+const reloadSW: any = '__RELOAD_SW__'
+
 const { updateServiceWorker } = useRegisterSW({
   immediate: true,
   onNeedRefresh() {
@@ -37,10 +40,36 @@ const { updateServiceWorker } = useRegisterSW({
   onOfflineReady() {
     console.info('offline ready in search')
   },
-
+  onRegisteredSW(swUrl, r) {
+    console.log(`Service Worker at in post search: ${swUrl}`)
+    if (reloadSW === 'true') {
+      r && setInterval(async () => {
+        console.log('Checking for sw update')
+        await r.update()
+      }, 20000 /* 20s for testing purposes */)
+    }
+    else {
+      console.log(`SW Registered: ${JSON.parse(JSON.stringify(r))}`)
+      // 브라우저가 서버로 요청을 보내면 Service Worker 는 fetch 이벤트를 구독해서 요청에 접근할 수 있다.
+      postStore.getPostList()
+      // self.addEventListener('fetch', (e: Event) => {
+      //   console.log('===> in fetch event')
+      //   e.respondWith(
+      //     // Cache 된 응답이 있는지 확인하고 응답이 없으면 서버로 요청을 전달한다.
+      //     caches.match(e.request).then((response) => {
+      //       console.log('===> match event: ', response)
+      //       return response || fetch(e.request)
+      //     }),
+      //   )
+      // })
+    }
+  },
 })
+const showBanner = ref(false)
+
 window.addEventListener('appinstalled', () => {
   console.log('PWA was installed')
+  showBanner.value = false
 })
 
 function getPWADisplayMode() {
@@ -68,10 +97,10 @@ onMounted(() => {
   // }
 })
 
-const showBanner = ref(false)
 window.addEventListener('beforeinstallprompt', (event) => {
   event.preventDefault()
-  // window.promptEvent = event
+  // @ts-expect-error ggg
+  window.promptEvent = event
   // if (getPWADisplayMode() === 'standalone')
   // console.log('pwa 앱 모드입니다. display-mode is standalone')
   showBanner.value = true

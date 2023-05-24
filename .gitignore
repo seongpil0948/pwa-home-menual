@@ -3,6 +3,7 @@
 .vite-ssg-temp
 *.local
 dist
+dev-dist
 dist-ssr
 node_modules
 .idea/

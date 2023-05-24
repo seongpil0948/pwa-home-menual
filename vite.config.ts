@@ -117,9 +117,9 @@ export default defineConfig({
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
       workbox: {
-        clientsClaim: true,
-        skipWaiting: true,
-        cleanupOutdatedCaches: false,
+        // clientsClaim: true,
+        // skipWaiting: true,
+        // cleanupOutdatedCaches: false,
         // globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         globPatterns: ['**/*'],
         runtimeCaching: [
@@ -128,7 +128,7 @@ export default defineConfig({
             urlPattern: /\w*/,
             // method: 'POST',
             options: {
-              cacheName: 'network-cache',
+              cacheName: 'abacus-network-cache',
               expiration: {
                 maxEntries: 10,
                 maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
@@ -164,12 +164,12 @@ export default defineConfig({
         // start_url: '/',
         // scope: '/',
         // display: 'fullscreen', browser
-        display: 'standalone', // app
-        related_applications: [{
-          platform: 'webapp',
-          url: 'http://localhost:3333/',
-        }],
-        prefer_related_applications: true,
+        // display: 'standalone', // app
+        // related_applications: [{
+        //   platform: 'webapp',
+        //   url: 'http://localhost:3333/',
+        // }],
+        // prefer_related_applications: true,
         icons: [
           {
             src: '/pwa-192x192.png',
