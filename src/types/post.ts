@@ -8,3 +8,8 @@ export interface IPost {
   // createDate: string
   // updateDate: string
 }
+export interface ITreePost extends IPost {
+  parent?: ITreePost
+  label: string
+  children: ITreePost[]
+}

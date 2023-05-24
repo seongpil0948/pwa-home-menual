@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', () => {
-  // const router = useRouter()
+  const router = useRouter()
   const auth = ref({
     userId: '',
     userName: '',
@@ -9,10 +9,10 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = computed(
     () => auth.value.userId && auth.value.userId !== '',
   )
-  // watchEffect(() => {
-  //   if (!isAuthenticated.value && router.currentRoute.value.name !== 'login')
-  //     router.push('/login')
-  // })
+  watchEffect(() => {
+    if (!isAuthenticated.value && router.currentRoute.value.name !== 'login')
+      router.push('/login')
+  })
   const setUser = (id: string, name: string) => {
     auth.value.userId = id
     auth.value.userName = name

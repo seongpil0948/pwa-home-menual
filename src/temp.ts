@@ -51,6 +51,11 @@ export const PERMISSIONS: IPermission[] = [
   {
     id: 'worker.post.read',
     userId: '2',
+    postId: '2-3',
+  },
+  {
+    id: 'worker.post.read',
+    userId: '2',
     postId: '2-5',
   },
 ]

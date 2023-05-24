@@ -1,14 +1,16 @@
 // import axios from 'axios'
-import { acceptHMRUpdate, defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import MiniSearch from 'minisearch'
-import type { IPost } from '~/types'
-import { MOCK_POST } from '~/temp'
+import type { IPost, ITreePost } from '~/types'
+import { MOCK_POST, PERMISSIONS } from '~/temp'
 
 // const BASE_URL = 'http://127.0.0.1:3000/posts'
 const ID_FIELD = 'id'
 const FIELD_LIST: (keyof IPost)[] = [ID_FIELD, 'title', 'content', 'parentId']
 
 export const usePostStore = defineStore('post', () => {
+  const authStore = useAuthStore()
+  const { auth } = storeToRefs(authStore)
   const postList = shallowRef<IPost[]>([])
   const postSearched = shallowRef<IPost[]>([])
   const postSearch = new MiniSearch({
@@ -19,6 +21,15 @@ export const usePostStore = defineStore('post', () => {
       const s = string.trim()
       return [s]
     },
+  })
+  const userPostIds = computed(() => PERMISSIONS.filter(p => p.postId && p.userId === auth.value.userId).map(x => x.postId!))
+  const targetPostList = computed(() => {
+    if (postSearched.value.length > 0) {
+      const targetIds = postSearched.value.map(x => x.id).filter(y => userPostIds.value.includes(y))
+      console.log('targetIds: ', targetIds)
+      return postList.value.filter(y => y.isCategory || targetIds.includes(y.id))
+    }
+    return postList.value.filter(y => y.isCategory || userPostIds.value.includes(y.id))
   })
   // const leafIds = computed(() => new Set(...postList.value.filter(x => !x.isCategory).map(y => y.id)))
 
@@ -82,25 +93,21 @@ export const usePostStore = defineStore('post', () => {
     searchSuggest,
     addPost,
     postsToTree,
+    targetPostList,
   }
 })
 
 if (import.meta.hot)
   import.meta.hot.accept(acceptHMRUpdate(usePostStore, import.meta.hot))
 
-interface TreePost extends IPost {
-  parent?: TreePost
-  label: string
-  children: TreePost[]
-}
-function isParentNode(parent: TreePost, child: TreePost): boolean {
+function isParentNode(parent: ITreePost, child: ITreePost): boolean {
   return parent.id === child.parentId
 }
-function insertChild(parent: TreePost, child: TreePost) {
+function insertChild(parent: ITreePost, child: ITreePost) {
   parent.children.push(child)
   parent.children.sort((a, b) => a.order - b.order)
 }
-function isNotEmptyTree(t: TreePost): TreePost | null {
+function isNotEmptyTree(t: ITreePost): ITreePost | null {
   if (!t.isCategory)
     return t
   for (let i = 0; i < t.children.length; i++) {
@@ -113,7 +120,7 @@ function isNotEmptyTree(t: TreePost): TreePost | null {
   return null
 }
 
-function addTreeToParent(parent: TreePost, target: TreePost) {
+function addTreeToParent(parent: ITreePost, target: ITreePost) {
   if (isParentNode(parent, target)) {
     insertChild(parent, target)
     return parent
@@ -128,10 +135,10 @@ function addTreeToParent(parent: TreePost, target: TreePost) {
 }
 
 function postsToTree(posts: IPost[]) {
-  const result: TreePost[] = []
+  const result: ITreePost[] = []
   for (let i = 0; i < posts.length; i++) {
     const data = posts[i]
-    const currNode: TreePost = { ...data, label: data.title, children: [] }
+    const currNode: ITreePost = { ...data, label: data.title, children: [] }
 
     if (!data.parentId) {
       // 최상위 노드일 경우 continue
