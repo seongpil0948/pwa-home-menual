@@ -1,11 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { storeToRefs } from 'pinia'
+
 import { BIconList } from 'bootstrap-icons-vue'
-import { usePostStore } from '~/store/post'
 const activeIndex = ref('1')
-const postStore = usePostStore()
-const { postList, postSearched } = storeToRefs(postStore)
+
 const drawer = ref(false)
 function cancelClick() {
   drawer.value = false
@@ -18,25 +16,18 @@ router.afterEach(() => {
   if (drawer.value)
     drawer.value = false
 })
-const targetPostList = computed(() => postSearched.value.length > 0 ? postSearched.value : postList.value)
 </script>
 
 <template>
   <el-drawer v-model="drawer" size="600" direction="ltr" :show-close="false">
     <template #header>
-      <post-search-selector />
+      바로가기
     </template>
-    <template #default>
-      <ul class="post-list pr-3" style="overflow: auto;">
-        <li v-for="p in targetPostList" :key="p.id" class="post-list-item">
-          <RouterLink class="icon-btn mx-2" :to="`/post/${p.id}`">
-            <div class="flex items-center mt-2">
-              {{ p.title }}
-            </div>
-          </RouterLink>
-        </li>
-      </ul>
-    </template>
+    <ul class="post-list pr-3" style="overflow: auto;">
+      <li v-for="p in [1, 2, 3, 4]" :key="p" class="post-list-item">
+        {{ p }}
+      </li>
+    </ul>
     <template #footer>
       <div style="flex: auto">
         <el-button @click="cancelClick">

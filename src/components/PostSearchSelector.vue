@@ -68,7 +68,7 @@ const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
 
 <template>
   <el-row justify="space-between">
-    <el-col :span="18">
+    <el-col :span="20">
       <el-autocomplete
         v-model="searchWord"
         style="width: 100%"

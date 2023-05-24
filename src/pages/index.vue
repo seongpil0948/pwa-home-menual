@@ -30,10 +30,10 @@ onBeforeMount(() => {
 
 <template>
   <div>
-    <post-form />
-    <br>
-    <div>Built at: {{ date }} ({{ timeAgo }})</div>
-    <br>
+    <post-view />
+    <div class="mt-12">
+      Built at: {{ date }} ({{ timeAgo }})
+    </div>
     <button @click="runWorker">
       Ping web worker
     </button>
