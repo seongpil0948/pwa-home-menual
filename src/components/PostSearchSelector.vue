@@ -67,7 +67,7 @@ const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
 </script>
 
 <template>
-  <el-row justify="space-between">
+  <el-row justify="space-around">
     <el-col :span="20">
       <el-autocomplete
         v-model="searchWord"
@@ -78,7 +78,7 @@ const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
         @select="handleSelect"
       />
     </el-col>
-    <el-col :span="4">
+    <el-col :span="2">
       <el-button style="margin-left: auto;" :icon="Search" @click="search" />
     </el-col>
   </el-row>

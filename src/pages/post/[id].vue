@@ -25,18 +25,18 @@ watchEffect(async () => {
       </div>
     </div>
     <el-footer style="height: 10vh;">
-      <el-row justify="space-around">
-        <el-col>
-          <el-button type="info" :icon="BIconChevronDoubleLeft" />
+      <el-row justify="center">
+        <el-col :span="1" class="mx-1">
+          <el-button :icon="BIconChevronDoubleLeft" />
         </el-col>
-        <el-col>
-          <el-button type="info" :icon="BIconChevronLeft" />
+        <el-col :span="1" class="mx-1">
+          <el-button :icon="BIconChevronLeft" />
         </el-col>
-        <el-col>
-          <el-button type="info" :icon="BIconChevronRight" />
+        <el-col :span="1" class="mx-1">
+          <el-button :icon="BIconChevronRight" />
         </el-col>
-        <el-col>
-          <el-button type="info" :icon="BIconChevronDoubleRight" />
+        <el-col :span="1" class="mx-1">
+          <el-button :icon="BIconChevronDoubleRight" />
         </el-col>
       </el-row>
     </el-footer>

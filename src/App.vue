@@ -20,14 +20,7 @@ useHead({
     },
   ],
 })
-// const auth = useAuthStore()
-// const router = useRouter()
-
-// watch(() => auth.isAuthenticated, (val) => {
-//   if (!val && router.currentRoute.value.name !== 'login')
-//     router.push('/login')
-// }, { immediate: true })
-
+useAuthStore()
 const { updateServiceWorker } = useRegisterSW({
   immediate: true,
   onNeedRefresh() {

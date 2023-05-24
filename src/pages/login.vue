@@ -60,38 +60,43 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-[60%] h14 text-5xl text-blue-400 mt-10 mx-auto">
-    Login
-  </div>
-  <div
-    class="drop-shadow rounded border-black bg-white w-[40%] mx-auto p-4 my-5"
-  >
-    <el-form>
-      <div class="flex-col w-[60%] justify-center mx-auto my-10 text-left">
-        <el-input
-          ref="userInputIdRef"
-          v-model="loginId"
-          type="text"
-          placeholder="아이디를 입력하세요."
-        />
-        <span v-if="validationId" class="color-red mb-4 text-sm">아이디를 입력해주세요.</span>
-        <span v-else class="block p-3" />
+  <div class="ma-auto">
+    <div class="text-center w-[60%] h14 text-5xl text-blue-400 mt-10 mx-auto">
+      Login
+    </div>
+    <div
+      class="drop-shadow rounded border-black bg-white w-[40%] mx-auto p-4 my-5"
+    >
+      <el-form>
+        <div class="flex-col w-[60%] justify-center mx-auto my-10 text-left">
+          <el-input
+            ref="userInputIdRef"
+            v-model="loginId"
+            type="text"
+            placeholder="아이디를 입력하세요."
+          />
+          <span v-if="validationId" class="color-red mb-4 text-sm">아이디를 입력해주세요.</span>
+          <span v-else class="block p-3" />
 
-        <el-input
-          ref="userInputPwdRef"
-          v-model="loginPassword"
-          type="password"
-          placeholder="비밀번호를 입력하세요."
-          @keyup.enter="submitForm"
-        />
-        <span v-if="validationPassword" class="color-red text-sm">비밀번호를 입력해주세요.</span>
-        <span v-else class="block p-3" />
-      </div>
-
-      <el-button type="primary" plain class="my-5" @click="submitForm">
-        로그인
-      </el-button>
-    </el-form>
+          <el-input
+            ref="userInputPwdRef"
+            v-model="loginPassword"
+            type="password"
+            placeholder="비밀번호를 입력하세요."
+            @keyup.enter="submitForm"
+          />
+          <span v-if="validationPassword" class="color-red text-sm">비밀번호를 입력해주세요.</span>
+          <span v-else class="block p-3" />
+        </div>
+        <el-row justify="center" class="my-5">
+          <el-col :span="4">
+            <el-button type="primary" plain @click="submitForm">
+              로그인
+            </el-button>
+          </el-col>
+        </el-row>
+      </el-form>
+    </div>
   </div>
 </template>
 
