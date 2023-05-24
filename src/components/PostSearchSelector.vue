@@ -13,22 +13,9 @@ const handleSelect = (item: any) => {
 
 const reloadSW: any = '__RELOAD_SW__'
 
-const { updateServiceWorker } = useRegisterSW({
+useRegisterSW({
   immediate: true,
-  onNeedRefresh() {
-    ElMessageBox.confirm(
-      '새로운 컨텐츠가 있습니다. 새로고침 하시겠습니까?',
-      'Info',
-      {
-        confirmButtonText: '새로고침',
-        cancelButtonText: '취소',
-        type: 'info',
-      },
-    ).then(() => updateServiceWorker(true))
-  },
-  onOfflineReady() {
-    console.info('offline ready in search')
-  },
+
   onRegisteredSW(swUrl, r) {
     console.log(`Service Worker at in post search: ${swUrl}`)
     if (reloadSW === 'true') {

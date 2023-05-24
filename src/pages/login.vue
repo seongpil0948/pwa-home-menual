@@ -50,7 +50,8 @@ const submitForm = async () => {
   //   return
   // }
 
-  authStore.setUser(res.data.userid, res.data.username)
+  // authStore.setUser(res.data.userid, res.data.username)
+  authStore.setUser(loginUser.id, 'sp')
   router.push('/')
 }
 onMounted(() => {
@@ -87,7 +88,7 @@ onMounted(() => {
         <span v-else class="block p-3" />
       </div>
 
-      <el-button type="primary submit" plain class="my-5" @click="submitForm">
+      <el-button type="primary" plain class="my-5" @click="submitForm">
         로그인
       </el-button>
     </el-form>

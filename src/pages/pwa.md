@@ -86,3 +86,28 @@ __generateSW__ method 는 기본설정으로 대부분의 작업을 자동으로
 - [workbox-expiration](https://developer.chrome.com/docs/workbox/modules/workbox-expiration/) for managing caches.
 - [workbox-window](https://developer.chrome.com/docs/workbox/modules/workbox-window/) for registering a service worker and handling updates in the [window context](https://developer.mozilla.org/docs/Web/API/Window)
 - [others](https://developer.chrome.com/docs/workbox/modules/)
+
+
+# Refer
+- https://github.com/GoogleChromeLabs/pwacompat
+## publish web to native app
+- https://www.pwabuilder.com/
+- https://github.com/GoogleChromeLabs/bubblewrap
+
+## App install in Browser
+- https://runebook.dev/ko/docs/dom/window/appinstalled_event
+- https://stackoverflow.com/questions/72791417/button-for-install-open-pwa-standalone-desktop-only
+- https://donggyu9410.medium.com/pwa-install-prompt-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0-45ed6653627
+- https://web.dev/i18n/ko/customize-install/
+- https://web.dev/i18n/ko/promote-install/
+  
+#### redirect to pwa app
+- https://web.dev/learn/pwa/detection/
+- https://stackoverflow.com/questions/51677716/pwa-deployed-in-node-js-running-in-standalone-mode-on-android-and-ios/51706405#51706405
+- https://developer.mozilla.org/en-US/docs/Web/Manifest/prefer_related_applications
+
+`display: 'standalone'`, related_apllications 설정이 된경우 앱으로 오픈되어야 하는데, 되지 않는 이슈가 있음,
+데스크 톱 환경에서는 수동으로 오픈 해야하고, 모바일기기에서는 지원 한다는데
+문서를 더 찾고, https 환경으로 배포후 테스트를 더 해봐야 할 것 같음
+#### get installed apps
+- https://web.dev/i18n/ko/get-installed-related-apps/

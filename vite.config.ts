@@ -160,6 +160,16 @@ export default defineConfig({
         name: 'HomeManual',
         short_name: 'hm',
         theme_color: '#ffffff',
+        description: 'description for abacus',
+        // start_url: '/',
+        // scope: '/',
+        // display: 'fullscreen', browser
+        display: 'standalone', // app
+        related_applications: [{
+          platform: 'webapp',
+          url: 'http://localhost:3333/',
+        }],
+        prefer_related_applications: true,
         icons: [
           {
             src: '/pwa-192x192.png',
